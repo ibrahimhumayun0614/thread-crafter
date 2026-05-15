@@ -240,6 +240,9 @@ export function App() {
             </div>
           </aside>
         </section>
+        <footer className="pb-2 text-center text-xs text-neutral-500">
+          Made with love by Muhammed
+        </footer>
       </div>
     </main>
   );
