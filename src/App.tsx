@@ -7,7 +7,6 @@ import {
   Eraser,
   FileText,
   RefreshCcw,
-  Save,
   Sparkles,
 } from "lucide-react";
 
@@ -106,14 +105,11 @@ function Button({
 
 export function App() {
   const [draft, setDraft] = useState(() => window.localStorage.getItem(STORAGE_KEY) ?? DEFAULT_TEXT);
-  const [autoSave, setAutoSave] = useState(true);
   const [copied, setCopied] = useState<CopyTarget>(null);
 
   useEffect(() => {
-    if (autoSave) {
-      window.localStorage.setItem(STORAGE_KEY, draft);
-    }
-  }, [autoSave, draft]);
+    window.localStorage.setItem(STORAGE_KEY, draft);
+  }, [draft]);
 
   const tweets = useMemo(() => craftThread(draft), [draft]);
   const normalizedLength = normalizeText(draft).length;
@@ -169,16 +165,6 @@ export function App() {
                 <FileText size={16} />
                 Editor
               </div>
-              <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-neutral-600">
-                <input
-                  checked={autoSave}
-                  className="h-4 w-4 accent-neutral-950"
-                  onChange={(event) => setAutoSave(event.target.checked)}
-                  type="checkbox"
-                />
-                <Save size={15} />
-                Save draft
-              </label>
             </div>
 
             <textarea
