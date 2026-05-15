@@ -69,17 +69,7 @@ function splitIntoBaseChunks(text: string, limit: number) {
 }
 
 function craftThread(text: string) {
-  let chunks = splitIntoBaseChunks(text, TWEET_LIMIT);
-  if (chunks.length <= 1) return chunks;
-
-  let previousCount = 0;
-  while (previousCount !== chunks.length) {
-    previousCount = chunks.length;
-    const reserve = `${chunks.length}/${chunks.length} `.length;
-    chunks = splitIntoBaseChunks(text, TWEET_LIMIT - reserve);
-  }
-
-  return chunks.map((chunk, index) => `${index + 1}/${chunks.length} ${chunk}`);
+  return splitIntoBaseChunks(text, TWEET_LIMIT);
 }
 
 function Button({
