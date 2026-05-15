@@ -2,9 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import {
   Check,
-  Clipboard,
   Copy,
   Eraser,
+  ExternalLink,
   FileText,
   RefreshCcw,
   Sparkles,
@@ -131,6 +131,11 @@ export function App() {
     window.localStorage.removeItem(STORAGE_KEY);
   }
 
+  function postThread() {
+    const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(fullThread)}`;
+    window.open(intentUrl, "_blank", "noopener,noreferrer");
+  }
+
   return (
     <main className="min-h-screen bg-[#f6f6f4] text-neutral-950">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-5 sm:px-6 lg:px-8">
@@ -151,9 +156,9 @@ export function App() {
               <Eraser size={16} />
               Clear
             </Button>
-            <Button disabled={!tweets.length} onClick={() => copyText(fullThread, "full")}>
-              {copied === "full" ? <Check size={16} /> : <Clipboard size={16} />}
-              {copied === "full" ? "Copied" : "Copy thread"}
+            <Button disabled={!tweets.length} onClick={postThread} title="Post thread on Twitter/X">
+              <ExternalLink size={16} />
+              Post thread
             </Button>
           </div>
         </header>
