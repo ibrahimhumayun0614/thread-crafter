@@ -65,43 +65,7 @@ function splitIntoBaseChunks(text: string, limit: number) {
   const clean = normalizeText(text);
   if (!clean) return [];
 
-  const paragraphs = clean.split(/\n{2,}/);
-  const chunks: string[] = [];
-
-  paragraphs.forEach((paragraph) => {
-    const compact = paragraph.replace(/\n/g, " ").trim();
-    if (!compact) return;
-
-    const sentences =
-      compact.match(/[^.!?]+[.!?]+["')\]]*|[^.!?]+$/g)?.map((part) => part.trim()) ?? [compact];
-
-    let current = "";
-    sentences.forEach((sentence) => {
-      const candidate = current ? `${current} ${sentence}` : sentence;
-      if (candidate.length <= limit) {
-        current = candidate;
-        return;
-      }
-
-      if (current) {
-        chunks.push(current);
-      }
-
-      if (sentence.length <= limit) {
-        current = sentence;
-      } else {
-        const sentenceChunks = splitSegment(sentence, limit);
-        chunks.push(...sentenceChunks.slice(0, -1));
-        current = sentenceChunks[sentenceChunks.length - 1] ?? "";
-      }
-    });
-
-    if (current) {
-      chunks.push(current);
-    }
-  });
-
-  return chunks;
+  return splitSegment(clean.replace(/\s+/g, " "), limit);
 }
 
 function craftThread(text: string) {
